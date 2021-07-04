@@ -5,10 +5,6 @@ function CreateTeamPage(){
         <div className="create-team">
             <h1>Création d'équipe : </h1>
             <form action="">
-                <div className="form-id">
-                    <label htmlFor="team-id">ID équipe : </label>
-                    <input id="team-id" type="text" placeholder="ID équipe" name="team-id"/>
-                </div>
                 <div className="form-name">
                     <label htmlFor="name">Nom de l'équipe : </label>
                     <input id="name" type="text" placeholder="nom de l'equipe" name="name"/>
