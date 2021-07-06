@@ -23,9 +23,17 @@ function CreateTeamPage(){
     function handleClick(e){
         e.preventDefault();
         axios.post('/addteam', teamInputs)
-            .then(function (response){
-                console.log(response.data);
+            .then((res) => {
+                if (res.status === 201) {
+                    setTeamInputs({
+                        teamName: '',
+                        teamLeague: '',
+                        teamURLLogo: ''
+                    })
+                    document.getElementById("teamLeague").selectedIndex = 0;
+                }
             })
+                .catch((res) => {console.log(res)})
     }
 
     return(
