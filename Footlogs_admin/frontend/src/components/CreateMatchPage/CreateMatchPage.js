@@ -1,47 +1,78 @@
+import { useState } from 'react';
 import './CreateMatchPage.scss';
 
-function CreateMatchPage(){
+function CreateMatchPage({leagues, teams}){
+
+    const [selectedLeague , setSelectedLeague] = useState('')
+
+    function handleChange(e){
+        const currentValue = e.target.value;
+        setSelectedLeague(currentValue)
+    }
+
+    function orderTeamsByAlpha(a, b){
+        return a.teamName > b.teamName
+    }
+
+    const orderedTeams = teams.sort(orderTeamsByAlpha)
+   
     return(
         <div className="create-match">
             <h1>Création d'un match : </h1>
             <form action="">
+
                 <div className="form-match-league">
                     <label htmlFor="">Choisir ligue :</label>
-                    <select name="league" id="league">
-                        <option value="Ligue 1">Ligue 1</option>
-                        <option value="Premiere League">Premiere League</option>
-                        <option value="Liga">Liga</option>
-                        <option value="Seri A">Seri A</option>
-                        <option value="Bundesliga">Bundesliga</option>
+                    <select name="league" id="league" onChange={handleChange}>
+                        <option value="">...</option>
+                        {leagues.map((league) => 
+                            <option value={league}>{league}</option>
+                        )}
                     </select>
-                </div>
+                </div>                
+
                 <div className="form-match-day">
                     <label htmlFor="day">Journée : </label>
-                    <input type="text" placeholder="n° journée" />
+                    <input type="number" placeholder="n° journée" name="matchDay"/>
                 </div>
+
                 <div className="form-match-equipeDom">
-                    <label htmlFor="">Equipe Dom. : </label>
-                    <input type="text" placeholder="equipe domicile" />
+                <label htmlFor="">Equipe Dom. : </label>
+                    <select name="domTeam" id="domTeam">
+                        <option value="">...</option>
+                        {orderedTeams.map((team) => 
+                            !selectedLeague || selectedLeague === team.teamLeague ?
+                                ( <option value={team.teamName}>{team.teamName}</option> ) : null
+                        )}                  
+                    </select>
                 </div>
+
                 <div className="form-match-scoreDom">
                     <label htmlFor="">Score Dom.</label>
-                    <input type="text" placeholder="0" value="NC"/>
+                    <input type="text" placeholder="0" value="NC" name="scoreDom"/>
                 </div>
+
                 <div className="form-match-equipeExt">
-                    <label htmlFor="">Equipe Ext. : </label>
-                    <input type="text" placeholder="equipe exterieure" />
+                    <label htmlFor="">Equipe Dom. : </label>
+                        <select name="league" id="league">
+                            <option value="">...</option>
+                            {teams.map((team) => 
+                                !selectedLeague || selectedLeague === team.teamLeague ?
+                                    ( <option value={team.teamName}>{team.teamName}</option> ) : null
+                            )}                  
+                        </select>
                 </div>
                 <div className="form-match-scoreExt">
                     <label htmlFor="">Score Ext..</label>
-                    <input type="text" placeholder="0" value="NC"/>
+                    <input type="text" placeholder="0" value="NC" name="scoreExt"/>
                 </div>
                 <div className="form-match-date">
                     <label htmlFor="date">Date : </label>
-                    <input type="date" name="" id="" />
+                    <input type="date" name="matchDate" id="" />
                 </div>
                 <div className="form-match-hour">
                     <label htmlFor="">Heure : </label>
-                    <input type="time" name="" id="" />
+                    <input type="time" name="matchHour" id="" />
                 </div>
                 <button>Ajouter Match</button>
             </form>

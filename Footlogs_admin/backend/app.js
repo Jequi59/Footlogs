@@ -4,6 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 const Team = require('./models/team');
+const team = require('./models/team');
 
 // connect to mongoose
 mongoose.connect("mongodb+srv://jquievreuxdev:Erin25012017@cluster0.aejzm.mongodb.net/Footlogs",
@@ -28,5 +29,17 @@ app.post('/addteam', (req, res, next) => {
         .then(() => res.status(201).json({message : "Equipe enregistrée !"}))
             .catch(() => res.status(400).json({error}))
 });
+
+app.get('/teams', (req, res, next) => {
+    team.find()
+        .then(teams => res.status(200).json(teams))
+            .catch(error => res.status(400).json({error}))
+})
+
+app.get('/teams/uk', (req, res, next) => {
+    team.find({teamLeague: 'Premiere League'})
+        .then(teams => res.status(200).json(teams))
+            .catch(error => res.status(400).json({error}))
+})
 
 module.exports = app;
